@@ -83,4 +83,14 @@ object FormMain: TFormMain
     TabOrder = 4
     Text = 'U61NMOJLOYrHBZ2HDQBIpUKOYeajWQXHb0w3ftNkuqo'
   end
+  object IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL
+    MaxLineAction = maException
+    Port = 0
+    DefaultPort = 0
+    SSLOptions.Mode = sslmUnassigned
+    SSLOptions.VerifyMode = []
+    SSLOptions.VerifyDepth = 0
+    Left = 112
+    Top = 88
+  end
 end

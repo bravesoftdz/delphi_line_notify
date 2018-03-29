@@ -5,8 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient,
-  IdHTTP, IdIOHandler, IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL,
-  IdServerIOHandler;
+  IdHTTP, IdIOHandler, IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL;
 
 type
   TFormMain = class(TForm)
@@ -19,6 +18,7 @@ type
     Label3: TLabel;
     EditToken: TEdit;
     Label4: TLabel;
+    IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL;
     procedure ButtonSendClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -87,6 +87,7 @@ var
   StringStream: TStringStream;
   Msg: string;
   HTTPClient: TIdHTTP;
+  Handler: TIdSSLIOHandlerSocketOpenSSL;
 begin
 
   Msg := Format(MESSAGE_FORMAT,[AMsg,AStickerPackID,AStickerID]);
@@ -94,6 +95,8 @@ begin
 
   try
     HttpClient := TIdHTTP.Create();
+    Handler := TIdSSLIOHandlerSocketOpenSSL.Create(HTTPClient);
+    HTTPClient.IOHandler := Handler;
     try
       with HttpClient do
       begin
@@ -102,7 +105,6 @@ begin
         Request.ContentType := CONTENT_TYPE;
         Request.CustomHeaders.FoldLines := False;
         Request.CustomHeaders.AddValue('Authorization', 'Bearer ' + EditToken.Text);
-
       end;
       Response := HTTPClient.Post(API_URL, StringStream);
 
